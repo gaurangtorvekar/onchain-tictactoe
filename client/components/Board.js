@@ -9,6 +9,9 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import truncateEthAddress from "truncate-eth-address";
 import { useEagerConnect } from "@/utils/useEagerConnect";
 import { useWeb3React } from "@web3-react/core";
+import { tictactoe_abi } from "@/lib/contract_config";
+import { decodeBitwise } from "@/utils/decodeBitwise";
+import { ethers } from "ethers";
 
 export default function Board() {
 	const [squares, setSquares] = useState(Array(9).fill(null));
@@ -23,7 +26,28 @@ export default function Board() {
 		setSelectedGame(game);
 	};
 
-	const handleClick = (i) => {
+	const setBoard = () => {
+		const squaresClone = squares.slice();
+		console.log("In board.js = ", gameObject.gameBoard);
+		gameObject.gameBoard.map((item, index) => {
+			if (item == "X") {
+				squaresClone[index] = "X";
+			} else if (item == "O") {
+				squaresClone[index] = "O";
+			} else {
+				squaresClone[index] = null;
+			}
+		});
+		setSquares(squaresClone);
+
+		if (gameObject.gameTurn == "X") {
+			setXIsNext(true);
+		} else {
+			setXIsNext(false);
+		}
+	};
+
+	const handleClick = async (i) => {
 		if (!selectedGame) {
 			toast.warning("You need to choose an account and select a game first!", {
 				position: toast.POSITION.TOP_RIGHT,
@@ -34,14 +58,72 @@ export default function Board() {
 		if (squares[i] !== null) {
 			return;
 		}
-		if (!winner) {
-			squaresClone[i] = xIsNext ? "X" : "O";
-			setSquares(squaresClone);
-			setXIsNext(!xIsNext);
-		} else {
-			toast.warning("Game is over!", {
-				position: toast.POSITION.TOP_RIGHT,
-			});
+
+		try {
+			const { ethereum } = window;
+			if (ethereum) {
+				const provider = new ethers.providers.Web3Provider(ethereum);
+				const signer = provider.getSigner();
+				console.log("Got the signer = ", signer);
+				let gameContractObj = new ethers.Contract(selectedGame.gameContract, tictactoe_abi, signer);
+				if (account) {
+					let players = await gameContractObj.getPlayers();
+					console.log("Players = ", players);
+					if (account == players[0] || account == players[1]) {
+						switch (gameObject.gameTurn) {
+							case "X":
+								if (account == players[0]) {
+									if (!winner) {
+										squaresClone[i] = xIsNext ? "X" : "O";
+										setSquares(squaresClone);
+										setXIsNext(!xIsNext);
+									} else {
+										toast.warning("Game is over!", {
+											position: toast.POSITION.TOP_RIGHT,
+										});
+									}
+									let result = await gameContractObj.move(i);
+									console.log("Not a game player");
+									console.log("After the move = ", result);
+								} else {
+									toast.warning("Wait for your turn!", {
+										position: toast.POSITION.TOP_RIGHT,
+									});
+									return;
+								}
+								break;
+							case "O":
+								if (account == players[1]) {
+									if (!winner) {
+										squaresClone[i] = xIsNext ? "X" : "O";
+										setSquares(squaresClone);
+										setXIsNext(!xIsNext);
+									} else {
+										toast.warning("Game is over!", {
+											position: toast.POSITION.TOP_RIGHT,
+										});
+									}
+									let result = await gameContractObj.move(i);
+									console.log("After the move = ", result);
+								} else {
+									console.log("Not a game player");
+									toast.warning("Wait for your turn!", {
+										position: toast.POSITION.TOP_RIGHT,
+									});
+									return;
+								}
+								break;
+						}
+					} else {
+						toast.warning("You need to be one of the players to play the game", {
+							position: toast.POSITION.TOP_RIGHT,
+						});
+						return;
+					}
+				}
+			}
+		} catch (e) {
+			console.log("Error while finding games", e);
 		}
 	};
 
@@ -64,7 +146,17 @@ export default function Board() {
 		status = "Next player: " + (xIsNext ? "X" : "O");
 	}
 
-	useEffect(() => {}, []);
+	let gameObject = {};
+	if (selectedGame) {
+		gameObject = decodeBitwise(selectedGame.gameBoard);
+	}
+
+	useEffect(() => {
+		if (selectedGame) {
+			setBoard();
+		}
+	}, [selectedGame]);
+
 	return (
 		<>
 			<ToastContainer />
@@ -93,11 +185,11 @@ export default function Board() {
 							<br />
 							{selectedGame && selectedGame.gameContract ? (
 								<div>
+									<br />
 									Your game contract is{" "}
 									<a href={`https://mumbai.polygonscan.com/address/${selectedGame.gameContract}`} target="_blank">
 										{truncateEthAddress(selectedGame.gameContract)}
 									</a>
-									{/* <Button variant="info">Set up game</Button> */}
 								</div>
 							) : null}
 

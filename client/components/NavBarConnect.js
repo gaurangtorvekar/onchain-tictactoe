@@ -5,6 +5,7 @@ import { useWeb3React } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
 import { InjectedConnector } from "@web3-react/injected-connector";
 import truncateEthAddress from "truncate-eth-address";
+import { ToastContainer, toast } from "react-toastify";
 
 export function NavBarConnect() {
 	//This handles chain changes or account changes on Metamask
@@ -16,7 +17,9 @@ export function NavBarConnect() {
 
 			if (chainId !== mumbaiChainId) {
 				//TODO - Use toast here
-				alert("You are not connected to Mumbai Testnet");
+				toast.warning("You need to connect to Polygon Mumbai testnet", {
+					position: toast.POSITION.TOP_RIGHT,
+				});
 				return;
 			}
 		});

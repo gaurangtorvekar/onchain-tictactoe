@@ -12,14 +12,15 @@ contract TictactoeRegistry {
     error GameAlreadyExists(address gameContract);
 
     // Mapping of firstPlayer => Game
-    mapping(address => Game[]) public Games;
+    mapping(address => Game[]) public FirstPlayerGames;
+    mapping(address => Game[]) public SecondPlayerGames;
 
     // We are assuming that the caller is the firstPlayer
     function register(address _firstPlayer, address _secondPlayer, address _gameContract) public {
         require(msg.sender == _firstPlayer || msg.sender == _secondPlayer);
         bool newGame = true;
-        for (uint256 i = 0; i < Games[msg.sender].length; i++) {
-            if (Games[msg.sender][i].secondPlayer == _secondPlayer) {
+        for (uint256 i = 0; i < FirstPlayerGames[msg.sender].length; i++) {
+            if (FirstPlayerGames[msg.sender][i].secondPlayer == _secondPlayer) {
                 newGame = false;
                 revert GameAlreadyExists(_gameContract);
             }
@@ -29,22 +30,18 @@ contract TictactoeRegistry {
             game.firstPlayer = msg.sender;
             game.secondPlayer = _secondPlayer;
             game.gameContract = _gameContract;
-            Games[msg.sender].push(game);
+            FirstPlayerGames[_firstPlayer].push(game);
+            SecondPlayerGames[_secondPlayer].push(game);
         }
     }
 
-    function remove(address _firstPlayer, address _secondPlayer, address _gameContract) public {
-        require(msg.sender == _firstPlayer || msg.sender == _secondPlayer);
-        for (uint256 i = 0; i < Games[msg.sender].length; i++) {
-            if (Games[msg.sender][i].gameContract == _gameContract) {
-                // Replaces the current element with the last element and then removes the last element with pop()
-                Games[msg.sender][i] = Games[msg.sender][Games[msg.sender].length - 1];
-                Games[msg.sender].pop();
-            }
+    function getGameList(address _player) public view returns (Game[] memory) {
+        Game[] memory games;
+        if (FirstPlayerGames[_player].length > 0) {
+            games = FirstPlayerGames[_player];
+        } else if (SecondPlayerGames[_player].length > 0) {
+            games = SecondPlayerGames[_player];
         }
-    }
-
-    function getGameList(address _firstPlayer) public view returns (Game[] memory) {
-        return Games[_firstPlayer];
+        return games;
     }
 }

@@ -12,6 +12,13 @@ pragma solidity >=0.7.0 <0.9.0;
 //  [00]     [0]    [00 00 00 00 00 00 00 00 00]
 // ------  ------  ------------------------------
 //  STATE   TURN              BOARD
+
+// States
+// the game is ongoing (10),
+// player zero has won (00),
+// player one has won (01),
+// and game is a draw (11).
+
 contract Tictactoe {
     error Unauthorized();
 
@@ -48,6 +55,8 @@ contract Tictactoe {
         playerTwo = _playerTwo;
         players.push(playerOne);
         players.push(playerTwo);
+        //Start a new game by default
+        gameBoard = gameBoard | 1 << 20;
     }
 
     /// @notice Checks is the player is registered
@@ -85,20 +94,11 @@ contract Tictactoe {
     }
 
     /// @notice a new game is created by appending 21bits to the current board
-    function newGame() external isPlayer(msg.sender) returns (uint256) {
+    function newGame() external isPlayer(msg.sender) {
         /// gameBoard = 0
         /// gameBoard << 20 => bin: 0b100000000000000000000
         ///                    hex: 0x100000
-        uint256 _gameBoard = gameBoard;
-
-        if (_gameBoard > 0) {
-            _gameBoard = _gameBoard << 21 | 1 << 20;
-        } else {
-            _gameBoard = _gameBoard | 1 << 20;
-        }
-
-        gameBoard = _gameBoard;
-        return _gameBoard;
+        gameBoard = 1 << 20;
     }
 
     function getGame() external view returns (uint256) {
@@ -151,6 +151,8 @@ contract Tictactoe {
         ///                       spot zero
         /// Then we'd just flip the bit there, there using
         /// (1 << (position << 1))
+        /// For Player one, the position is set as 01
+        /// For Player two, the position is set as 10
 
         _gameBoard = _gameBoard ^ (1 << ((_move << 1) + _playerId));
 
