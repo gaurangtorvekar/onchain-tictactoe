@@ -49,12 +49,12 @@ export function NewGame() {
 			<Form onSubmit={createNewGame}>
 				<Row className="mb-3">
 					<Form.Group as={Col} controlId="formGridCity">
-						<Form.Label>First Player On-chain Account</Form.Label>
+						<Form.Label>First Player</Form.Label>
 						<Form.Control name="firstPlayer" disabled value={account ? `${account} (YOU)` : "0x"} />
 					</Form.Group>
 
 					<Form.Group as={Col} controlId="formGridState">
-						<Form.Label>Second Player On-chain Account</Form.Label>
+						<Form.Label>Second Player</Form.Label>
 						<Form.Control name="secondPlayer" placeholder="0x" />
 					</Form.Group>
 				</Row>

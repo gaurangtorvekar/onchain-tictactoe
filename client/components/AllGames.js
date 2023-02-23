@@ -61,6 +61,7 @@ export function AllGames({ selectedGameFunc }) {
 	}, [account]);
 	return (
 		<>
+			<h3>Your on-chain games</h3>
 			<Table striped bordered hover>
 				<thead>
 					<tr>

@@ -3,6 +3,7 @@ import { Square } from "./Square";
 import { NewGame } from "./NewGame";
 import { NavBarConnect } from "./NavBarConnect";
 import { AllGames } from "./AllGames";
+import { HowTo } from "./HowTo";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Container, Row, Col, Button } from "react-bootstrap";
@@ -200,13 +201,17 @@ export default function Board() {
 						<div>
 							<NewGame />
 						</div>
-						<br />
+						{/* <br /> */}
 						<hr></hr>
-						<br />
+						{/* <br /> */}
 						<div>
 							<AllGames selectedGameFunc={selectedGameFunc} />
 						</div>
 					</Col>
+				</Row>
+				<hr></hr>
+				<Row>
+					<HowTo />
 				</Row>
 			</Container>
 		</>

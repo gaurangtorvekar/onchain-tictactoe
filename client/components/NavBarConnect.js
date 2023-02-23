@@ -50,11 +50,9 @@ export function NavBarConnect() {
 	return (
 		<Navbar bg="light" fixed="top">
 			<Container>
-				<Navbar.Brand href="#home">Navbar</Navbar.Brand>
+				<Navbar.Brand href="#home">On-chain Tic Tac Toe</Navbar.Brand>
 				<Nav className="justify-content-end">
-					<Nav.Link href="#home">Home</Nav.Link>
-					<Nav.Link href="#features">Features</Nav.Link>
-					<Nav.Link href="#pricing">Pricing</Nav.Link>
+					<Nav.Link href="#home">Github</Nav.Link>
 					{account ? (
 						<NavDropdown id="nav-dropdown-dark-example" title={truncateEthAddress(account)}>
 							<NavDropdown.Item href="#action/3.1" onClick={disconnectWallet}>
