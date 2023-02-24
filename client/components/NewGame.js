@@ -23,18 +23,13 @@ export function NewGame() {
 				let registry_contract = new ethers.Contract(registry_address, registry_abi, signer);
 				const games = await registry_contract.getGameList(account);
 				games.map((game) => {
-					console.log(game);
 					if (game.firstPlayer == account && game.secondPlayer == secondPlayer) newGame = false;
-					console.log("Found an existing game. Not gonna do anything");
 				});
 
 				if (newGame) {
 					let factory = new ethers.ContractFactory(tictactoe_abi, tictactoe_bytecode, signer);
 					let contract = await factory.deploy(secondPlayer);
-					console.log("Tictactoe Contract deployed = ", contract.address);
-
 					let tx = await registry_contract.register(account, secondPlayer, contract.address);
-					console.log("Registered the tictactoe contract = ", tx.hash);
 				}
 			} else {
 				console.log("Cannot find Eth object");

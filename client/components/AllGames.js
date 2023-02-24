@@ -19,9 +19,7 @@ export function AllGames({ selectedGameFunc }) {
 				const signer = provider.getSigner();
 				let registry_contract = new ethers.Contract(registry_address, registry_abi, signer);
 				if (account) {
-					console.log("Calling for address = ", account);
 					let tx = await registry_contract.getGameList(account);
-					console.log("List of games = ", tx);
 					setGames(tx);
 				}
 			}
@@ -31,7 +29,6 @@ export function AllGames({ selectedGameFunc }) {
 	};
 
 	const resetGame = async (event) => {
-		console.log("Resetting the game = ", event.target.dataset.id);
 		const selectedGameContract = event.target.dataset.id;
 		try {
 			const { ethereum } = window;
@@ -41,7 +38,6 @@ export function AllGames({ selectedGameFunc }) {
 				let gameContractObj = new ethers.Contract(selectedGameContract, tictactoe_abi, signer);
 				if (account) {
 					let tx = await gameContractObj.newGame();
-					console.log("Game state = ", tx);
 				}
 			}
 		} catch (e) {
@@ -50,7 +46,6 @@ export function AllGames({ selectedGameFunc }) {
 	};
 
 	const setGame = async (event) => {
-		console.log("Choosing the game = ", event.target.dataset.id);
 		const selectedGameContract = event.target.dataset.id;
 		let gameBoardState;
 		try {
@@ -61,7 +56,7 @@ export function AllGames({ selectedGameFunc }) {
 				let gameContractObj = new ethers.Contract(selectedGameContract, tictactoe_abi, signer);
 				if (account) {
 					let tx = await gameContractObj.getGame();
-					console.log("Game state = ", tx.toString());
+
 					gameBoardState = tx.toString();
 				}
 			}

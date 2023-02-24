@@ -29,7 +29,6 @@ export default function Board() {
 
 	const setBoard = () => {
 		const squaresClone = squares.slice();
-		console.log("In board.js = ", gameObject.gameBoard);
 		gameObject.gameBoard.map((item, index) => {
 			if (item == "X") {
 				squaresClone[index] = "X";
@@ -65,11 +64,9 @@ export default function Board() {
 			if (ethereum) {
 				const provider = new ethers.providers.Web3Provider(ethereum);
 				const signer = provider.getSigner();
-				console.log("Got the signer = ", signer);
 				let gameContractObj = new ethers.Contract(selectedGame.gameContract, tictactoe_abi, signer);
 				if (account) {
 					let players = await gameContractObj.getPlayers();
-					console.log("Players = ", players);
 					if (account == players[0] || account == players[1]) {
 						switch (gameObject.gameTurn) {
 							case "X":
@@ -84,8 +81,6 @@ export default function Board() {
 										});
 									}
 									let result = await gameContractObj.move(i);
-									console.log("Not a game player");
-									console.log("After the move = ", result);
 								} else {
 									toast.warning("Wait for your turn!", {
 										position: toast.POSITION.TOP_RIGHT,
@@ -105,9 +100,7 @@ export default function Board() {
 										});
 									}
 									let result = await gameContractObj.move(i);
-									console.log("After the move = ", result);
 								} else {
-									console.log("Not a game player");
 									toast.warning("Wait for your turn!", {
 										position: toast.POSITION.TOP_RIGHT,
 									});
