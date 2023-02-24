@@ -1,7 +1,7 @@
 # On-chain Tictactoe
 
 I created this project in order to get my hands dirty with the latest Scroll #zkEVM! This game works on the Scroll L2 testnet, and you will need some TSETH to play the game.
-You can play the game [here](vercel.com).
+You can play the game [here](https://onchain-tictactoe.vercel.app/).
 
 ## Scroll zkEVM
 
@@ -18,3 +18,15 @@ The [TictactoeRegistry.sol](https://github.com/gaurangtorvekar/onchain-tictactoe
 ## Front-end
 
 The UI is a standard Next.js app that was created using create-next-app. I have used the React-Bootstrap framework to give some basic styles to the components and to make the website responsive. I have deployed this app on Vercel.
+
+---
+
+### WIP
+
+Please note that this game is still a WIP. Although the basic game functionality works well, there are still a few features I mean to implement -
+
+- An AI opponent so that you can play against the "system"
+- Multisig from both players before they are allowed to "reset" the game
+- Adding push notifications when your opponent has played a move
+- Move the deployment to the Scroll Goerli testnet (when ready)
+- Test out a few edge cases

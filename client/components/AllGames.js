@@ -30,6 +30,25 @@ export function AllGames({ selectedGameFunc }) {
 		}
 	};
 
+	const resetGame = async (event) => {
+		console.log("Resetting the game = ", event.target.dataset.id);
+		const selectedGameContract = event.target.dataset.id;
+		try {
+			const { ethereum } = window;
+			if (ethereum) {
+				const provider = new ethers.providers.Web3Provider(ethereum);
+				const signer = provider.getSigner();
+				let gameContractObj = new ethers.Contract(selectedGameContract, tictactoe_abi, signer);
+				if (account) {
+					let tx = await gameContractObj.newGame();
+					console.log("Game state = ", tx);
+				}
+			}
+		} catch (e) {
+			console.log("Error while resetting game", e);
+		}
+	};
+
 	const setGame = async (event) => {
 		console.log("Choosing the game = ", event.target.dataset.id);
 		const selectedGameContract = event.target.dataset.id;
@@ -71,6 +90,7 @@ export function AllGames({ selectedGameFunc }) {
 							<th>Second Player</th>
 							<th>Game Contract</th>
 							<th></th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -83,6 +103,11 @@ export function AllGames({ selectedGameFunc }) {
 								<td>
 									<Button variant="outline-primary" size="sm" data-id={item[2]} onClick={setGame} type="submit">
 										Choose
+									</Button>
+								</td>
+								<td>
+									<Button variant="outline-primary" size="sm" data-id={item[2]} onClick={resetGame} type="submit">
+										Reset
 									</Button>
 								</td>
 							</tr>

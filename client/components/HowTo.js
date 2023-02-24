@@ -16,8 +16,12 @@ export function HowTo() {
 				</ListGroup>
 				<Card.Body>
 					<Card.Subtitle className="mb-2 text-muted">Contact Me</Card.Subtitle>
-					<Card.Link href="#">LinkedIn</Card.Link>
-					<Card.Link href="#">Twitter</Card.Link>
+					<Card.Link href="https://linkedin.com/in/gaurang-solidity-dev/" target="_blank">
+						LinkedIn
+					</Card.Link>
+					<Card.Link href="https://twitter.com/gaurangtorvekar" target="_blank">
+						Twitter
+					</Card.Link>
 				</Card.Body>
 			</Card>
 		</>

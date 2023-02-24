@@ -8,31 +8,12 @@ import truncateEthAddress from "truncate-eth-address";
 import { ToastContainer, toast } from "react-toastify";
 
 export function NavBarConnect() {
-	//This handles chain changes or account changes on Metamask
-	try {
-		const { ethereum } = window;
-		ethereum.on("chainChanged", async () => {
-			let chainId = await ethereum.request({ method: "eth_chainId" });
-			const mumbaiChainId = "0x13881";
-
-			if (chainId !== mumbaiChainId) {
-				//TODO - Use toast here
-				toast.warning("You need to connect to Polygon Mumbai testnet", {
-					position: toast.POSITION.TOP_RIGHT,
-				});
-				return;
-			}
-		});
-	} catch (e) {
-		// console.log("Error while handling Metamask account or chain changed", e);
-	}
-
 	const { active, account, library, connector, activate, deactivate } = useWeb3React();
 
 	const connectWallet = async () => {
 		try {
 			const injected = await new InjectedConnector({
-				supportedChainIds: [1, 3, 4, 5, 42, 80001, 534351, 534354],
+				supportedChainIds: [534354],
 			});
 			await activate(injected);
 		} catch (e) {
@@ -52,7 +33,9 @@ export function NavBarConnect() {
 			<Container>
 				<Navbar.Brand href="#home">On-chain Tic Tac Toe</Navbar.Brand>
 				<Nav className="justify-content-end">
-					<Nav.Link href="#home">Github</Nav.Link>
+					<Nav.Link href="https://github.com/gaurangtorvekar/onchain-tictactoe" target="_blank">
+						Github
+					</Nav.Link>
 					{account ? (
 						<NavDropdown id="nav-dropdown-dark-example" title={truncateEthAddress(account)}>
 							<NavDropdown.Item href="#action/3.1" onClick={disconnectWallet}>
