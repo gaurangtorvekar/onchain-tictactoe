@@ -1,6 +1,7 @@
 node_modules
 .env
 client/.env
+client/.next
 coverage
 coverage.json
 typechain
