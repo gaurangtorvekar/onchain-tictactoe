@@ -188,7 +188,7 @@ export default function Board() {
 								<div>
 									<br />
 									Your game contract is{" "}
-									<a href={`https://mumbai.polygonscan.com/address/${selectedGame.gameContract}`} target="_blank">
+									<a href={`https://l2scan.scroll.io/address/${selectedGame.gameContract}`} target="_blank">
 										{truncateEthAddress(selectedGame.gameContract)}
 									</a>
 								</div>

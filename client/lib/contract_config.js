@@ -232,4 +232,4 @@ export const registry_abi = [
 	},
 ];
 
-export const registry_address = "0x6BA5F4a7093a49E3a7dB6887B00c70b32fDD57f1";
+export const registry_address = "0xb4F729Da24c7d1eE0b59D3fE39999376Ad0E8A4D";

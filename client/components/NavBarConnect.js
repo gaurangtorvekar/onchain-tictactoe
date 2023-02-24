@@ -32,7 +32,7 @@ export function NavBarConnect() {
 	const connectWallet = async () => {
 		try {
 			const injected = await new InjectedConnector({
-				supportedChainIds: [1, 3, 4, 5, 42, 80001],
+				supportedChainIds: [1, 3, 4, 5, 42, 80001, 534351, 534354],
 			});
 			await activate(injected);
 		} catch (e) {

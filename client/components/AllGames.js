@@ -62,32 +62,36 @@ export function AllGames({ selectedGameFunc }) {
 	return (
 		<>
 			<h3>Your on-chain games</h3>
-			<Table striped bordered hover>
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>First Player</th>
-						<th>Second Player</th>
-						<th>Game Contract</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					{games.map((item, index) => (
-						<tr key={index}>
-							<td>{index}</td>
-							<td>{truncateEthAddress(item[0])}</td>
-							<td>{truncateEthAddress(item[1])}</td>
-							<td>{truncateEthAddress(item[2])}</td>
-							<td>
-								<Button variant="outline-primary" size="sm" data-id={item[2]} onClick={setGame} type="submit">
-									Choose
-								</Button>
-							</td>
+			{games.length > 0 ? (
+				<Table striped bordered hover>
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>First Player</th>
+							<th>Second Player</th>
+							<th>Game Contract</th>
+							<th></th>
 						</tr>
-					))}
-				</tbody>
-			</Table>
+					</thead>
+					<tbody>
+						{games.map((item, index) => (
+							<tr key={index}>
+								<td>{index}</td>
+								<td>{truncateEthAddress(item[0])}</td>
+								<td>{truncateEthAddress(item[1])}</td>
+								<td>{truncateEthAddress(item[2])}</td>
+								<td>
+									<Button variant="outline-primary" size="sm" data-id={item[2]} onClick={setGame} type="submit">
+										Choose
+									</Button>
+								</td>
+							</tr>
+						))}
+					</tbody>
+				</Table>
+			) : (
+				<p>Oops! You haven't created any games yet. Please create a new game.</p>
+			)}
 		</>
 	);
 }
