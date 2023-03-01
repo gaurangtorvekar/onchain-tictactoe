@@ -11,3 +11,5 @@ typechain-types
 cache
 artifacts
 
+#Remix file
+compiler_config.json

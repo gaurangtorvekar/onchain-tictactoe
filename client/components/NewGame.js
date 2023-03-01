@@ -7,6 +7,7 @@ import { useWeb3React } from "@web3-react/core";
 export function NewGame() {
 	const { account } = useWeb3React();
 	const createNewGame = async (event) => {
+		event.preventDefault();
 		try {
 			const data = {
 				firstPlayer: event.target.firstPlayer.value,
