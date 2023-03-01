@@ -6,7 +6,7 @@ import { AllGames } from "./AllGames";
 import { HowTo } from "./HowTo";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Alert } from "react-bootstrap";
 import truncateEthAddress from "truncate-eth-address";
 import { useEagerConnect } from "@/utils/useEagerConnect";
 import { useWeb3React } from "@web3-react/core";
@@ -19,6 +19,7 @@ export default function Board() {
 	const [xIsNext, setXIsNext] = useState(true);
 	const [selectedGame, setSelectedGame] = useState(null);
 	const [gameWinner, setGameWinner] = useState();
+	const [show, setShow] = useState(true);
 	useEagerConnect();
 	const { account } = useWeb3React();
 
@@ -156,6 +157,12 @@ export default function Board() {
 			<ToastContainer />
 			<NavBarConnect />
 			<Container>
+				{show ? (
+					<Alert variant="info" onClose={() => setShow(false)} dismissible>
+						This game works on the <Alert.Link href="https://scroll.io/alpha">Scroll Alpha Testnet</Alert.Link> or Goerli Testnet. Please choose the correct chain on Metamask to proceed.
+					</Alert>
+				) : null}
+
 				<Row>
 					<Col md={4}>
 						<Row>

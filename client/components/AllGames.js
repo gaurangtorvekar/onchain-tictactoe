@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Button, Table, Container, Row, Col } from "react-bootstrap";
-import { tictactoe_abi, tictactoe_bytecode, registry_abi, registry_address } from "../lib/contract_config";
+import { tictactoe_abi, tictactoe_bytecode, registry_abi } from "../lib/contract_config";
 import { ethers, BigNumber } from "ethers";
 import { useEffect, useState } from "react";
 import truncateEthAddress from "truncate-eth-address";
@@ -16,7 +16,16 @@ export function AllGames({ selectedGameFunc }) {
 			const { ethereum } = window;
 			if (ethereum) {
 				const provider = new ethers.providers.Web3Provider(ethereum);
+				let registry_address;
 				const signer = provider.getSigner();
+				let chainId = await ethereum.request({ method: "eth_chainId" });
+				const scroll_alpha_chainid = "0x82751";
+				const goerli_chainid = "0x5";
+				if (chainId == scroll_alpha_chainid) {
+					registry_address = "0xfD446a9c488bd5b4A4A1CBa014179fC3b178DaA6";
+				} else if (chainId == goerli_chainid) {
+					registry_address = "0xfD446a9c488bd5b4A4A1CBa014179fC3b178DaA6";
+				}
 				let registry_contract = new ethers.Contract(registry_address, registry_abi, signer);
 				if (account) {
 					let tx = await registry_contract.getGameList(account);
