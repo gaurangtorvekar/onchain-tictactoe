@@ -33,7 +33,7 @@ export function AllGames({ selectedGameFunc }) {
 				}
 			}
 		} catch (e) {
-			console.log("Error while finding games", e);
+			// console.log("Error while finding games", e);
 		}
 	};
 

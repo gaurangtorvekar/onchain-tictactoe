@@ -28,7 +28,8 @@ export function useEagerConnect() {
 		}
 	}, [active, account]);
 	if (error) {
-		console.log("Error in useEagerConnect = ", error);
+		// console.log("Error in useEagerConnect = ", error);
+		return false;
 	}
 	return tried;
 }

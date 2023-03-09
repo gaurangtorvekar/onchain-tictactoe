@@ -20,9 +20,12 @@ export default function Board() {
 	const [selectedGame, setSelectedGame] = useState(null);
 	const [gameWinner, setGameWinner] = useState();
 	const [show, setShow] = useState(true);
-	useEagerConnect();
+	const [eagerConnectError, setEagerConnectError] = useState();
 	const { account } = useWeb3React();
 
+	const connectedOrNot = useEagerConnect();
+	// console.log("Eager connect succeeded?", connectedOrNot);
+	
 	//This function sets a game from the AllGames component
 	const selectedGameFunc = (game) => {
 		setSelectedGame(game);
@@ -145,7 +148,6 @@ export default function Board() {
 	if (selectedGame) {
 		gameObject = decodeBitwise(selectedGame.gameBoard);
 	}
-
 	useEffect(() => {
 		if (selectedGame) {
 			setBoard();
@@ -159,9 +161,15 @@ export default function Board() {
 			<Container>
 				{show ? (
 					<Alert variant="info" onClose={() => setShow(false)} dismissible>
-						This game works on the <Alert.Link href="https://scroll.io/alpha">Scroll Alpha Testnet</Alert.Link> or Goerli Testnet. Please choose the correct chain on Metamask to proceed.
+						This game works on <Alert.Link href="https://scroll.io/alpha">Scroll Alpha Testnet</Alert.Link> or Goerli Testnet. Please choose the correct chain on Metamask to proceed.
 					</Alert>
 				) : null}
+
+				{connectedOrNot ? null : (
+					<Alert variant="danger" onClose={() => setShow(false)} dismissible>
+						Please make sure that your Metamask is connected to <Alert.Link href="https://scroll.io/alpha">Scroll Alpha Testnet</Alert.Link> or Goerli Testnet. Please choose the correct chain on Metamask to proceed.
+					</Alert>
+				)}
 
 				<Row>
 					<Col md={4}>
