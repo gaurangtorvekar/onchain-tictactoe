@@ -274,11 +274,12 @@ contract Tictactoe {
 
         unchecked {
             /// Checks if all fields has been played
-            for (uint256 x = 0; x < 9; x++) {
+            for (uint256 x = 0; x < 9;) {
                 if (_gameBoard & 1 == 0 && _gameBoard & 2 == 0) {
                     return 0;
                 }
                 _gameBoard = _gameBoard >> 2;
+                unchecked {++x;}
             }
 
             /// A Draw

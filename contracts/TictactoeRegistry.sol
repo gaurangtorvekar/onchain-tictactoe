@@ -19,11 +19,12 @@ contract TictactoeRegistry {
     function register(address _firstPlayer, address _secondPlayer, address _gameContract) public {
         require(msg.sender == _firstPlayer || msg.sender == _secondPlayer);
         bool newGame = true;
-        for (uint256 i = 0; i < FirstPlayerGames[msg.sender].length; i++) {
+        for (uint256 i = 0; i < FirstPlayerGames[msg.sender].length;) {
             if (FirstPlayerGames[msg.sender][i].secondPlayer == _secondPlayer) {
                 newGame = false;
                 revert GameAlreadyExists(_gameContract);
             }
+            unchecked {++x;}
         }
         if (newGame) {
             Game memory game;
