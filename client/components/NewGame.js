@@ -30,9 +30,7 @@ export function NewGame() {
 				if (newGame) {
 					let factory = new ethers.ContractFactory(tictactoe_abi, tictactoe_bytecode, signer);
 					let contract = await factory.deploy(secondPlayer);
-					console.log("Game contract deployed = ", contract.address);
 					let tx = await registry_contract.register(account, secondPlayer, contract.address);
-					console.log("Register Tx = ", tx.hash);
 				}
 			} else {
 				console.log("Cannot find Eth object");

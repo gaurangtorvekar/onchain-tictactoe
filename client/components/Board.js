@@ -24,7 +24,6 @@ export default function Board() {
 	const { account } = useWeb3React();
 
 	const connectedOrNot = useEagerConnect();
-	console.log("Eager connect succeeded?", connectedOrNot);
 
 	//This function sets a game from the AllGames component
 	const selectedGameFunc = (game) => {

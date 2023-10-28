@@ -20,7 +20,6 @@ export function AllGames({ selectedGameFunc }) {
 				const signer = provider.getSigner();
 				let register_address;
 				let chainId = await ethereum.request({ method: "eth_chainId" });
-				console.log("ChainId = ", chainId);
 				const scroll_chainid = "0x82750";
 				const goerli_chainid = "0x5";
 				if (chainId == scroll_chainid) {
@@ -31,12 +30,12 @@ export function AllGames({ selectedGameFunc }) {
 				let registry_contract = new ethers.Contract(register_address, registry_abi, signer);
 				if (account) {
 					let tx = await registry_contract.getGameList(account);
-					console.log("Games = ", tx);
+
 					setGames(tx);
 				}
 			}
 		} catch (e) {
-			// console.log("Error while finding games", e);
+			console.log("Error while finding games", e);
 		}
 	};
 
