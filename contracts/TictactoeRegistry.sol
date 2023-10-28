@@ -36,12 +36,20 @@ contract TictactoeRegistry {
     }
 
     function getGameList(address _player) public view returns (Game[] memory) {
-        Game[] memory games;
-        if (FirstPlayerGames[_player].length > 0) {
-            games = FirstPlayerGames[_player];
-        } else if (SecondPlayerGames[_player].length > 0) {
-            games = SecondPlayerGames[_player];
+        uint256 totalGames = FirstPlayerGames[_player].length + SecondPlayerGames[_player].length;
+        Game[] memory games = new Game[](totalGames);
+        uint256 count = 0;
+
+        for (uint256 i = 0; i < FirstPlayerGames[_player].length; i++) {
+            games[count] = FirstPlayerGames[_player][i];
+            count++;
         }
+
+        for (uint256 i = 0; i < SecondPlayerGames[_player].length; i++) {
+            games[count] = SecondPlayerGames[_player][i];
+            count++;
+        }
+
         return games;
     }
 }

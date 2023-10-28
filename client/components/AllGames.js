@@ -5,6 +5,7 @@ import { ethers, BigNumber } from "ethers";
 import { useEffect, useState } from "react";
 import truncateEthAddress from "truncate-eth-address";
 import { useWeb3React } from "@web3-react/core";
+import { registry_address } from "../lib/contract_config";
 
 export function AllGames({ selectedGameFunc }) {
 	const [games, setGames] = useState([]);
@@ -16,19 +17,21 @@ export function AllGames({ selectedGameFunc }) {
 			const { ethereum } = window;
 			if (ethereum) {
 				const provider = new ethers.providers.Web3Provider(ethereum);
-				let registry_address;
 				const signer = provider.getSigner();
+				let register_address;
 				let chainId = await ethereum.request({ method: "eth_chainId" });
-				const scroll_alpha_chainid = "0x82751";
+				console.log("ChainId = ", chainId);
+				const scroll_chainid = "0x82750";
 				const goerli_chainid = "0x5";
-				if (chainId == scroll_alpha_chainid) {
-					registry_address = "0xfD446a9c488bd5b4A4A1CBa014179fC3b178DaA6";
+				if (chainId == scroll_chainid) {
+					register_address = registry_address;
 				} else if (chainId == goerli_chainid) {
-					registry_address = "0xfD446a9c488bd5b4A4A1CBa014179fC3b178DaA6";
+					register_address = "0xfD446a9c488bd5b4A4A1CBa014179fC3b178DaA6";
 				}
-				let registry_contract = new ethers.Contract(registry_address, registry_abi, signer);
+				let registry_contract = new ethers.Contract(register_address, registry_abi, signer);
 				if (account) {
 					let tx = await registry_contract.getGameList(account);
+					console.log("Games = ", tx);
 					setGames(tx);
 				}
 			}
@@ -124,3 +127,4 @@ export function AllGames({ selectedGameFunc }) {
 		</>
 	);
 }
+

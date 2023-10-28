@@ -24,8 +24,8 @@ export default function Board() {
 	const { account } = useWeb3React();
 
 	const connectedOrNot = useEagerConnect();
-	// console.log("Eager connect succeeded?", connectedOrNot);
-	
+	console.log("Eager connect succeeded?", connectedOrNot);
+
 	//This function sets a game from the AllGames component
 	const selectedGameFunc = (game) => {
 		setSelectedGame(game);
@@ -161,13 +161,13 @@ export default function Board() {
 			<Container>
 				{show ? (
 					<Alert variant="info" onClose={() => setShow(false)} dismissible>
-						This game works on <Alert.Link href="https://scroll.io/alpha">Scroll Alpha Testnet</Alert.Link> or Goerli Testnet. Please choose the correct chain on Metamask to proceed.
+						This game works on <Alert.Link href="https://scroll.io">Scroll Mainnet</Alert.Link>. Please choose the correct chain on Metamask to proceed.
 					</Alert>
 				) : null}
 
 				{connectedOrNot ? null : (
 					<Alert variant="danger" onClose={() => setShow(false)} dismissible>
-						Please make sure that your Metamask is connected to <Alert.Link href="https://scroll.io/alpha">Scroll Alpha Testnet</Alert.Link> or Goerli Testnet. Please choose the correct chain on Metamask to proceed.
+						Please make sure that your Metamask is connected to <Alert.Link href="https://scroll.io">Scroll Mainnet</Alert.Link>. Please choose the correct chain on Metamask to proceed.
 					</Alert>
 				)}
 
@@ -246,3 +246,4 @@ function calculateWinner(squares) {
 	}
 	return null;
 }
+
